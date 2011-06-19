@@ -1,6 +1,7 @@
 package net.arcreactor.chatty;
 
 import net.arcreactor.chatty.packets.Packet;
+import net.arcreactor.chatty.packets.client.PongPacket;import net.arcreactor.chatty.packets.server.PingPacket;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.service.IoHandler;
 import org.apache.mina.core.session.IdleStatus;
@@ -37,9 +38,14 @@ public class ChattyHandler implements IoHandler {
     }
 
     public void messageReceived(IoSession session, Object message) throws Exception {
-        System.out.println("Message Received!");
         Packet received = (Packet)message;
-        System.out.println(received);
+        switch(received.getHeader()){
+            case PingPacket.HEADER:
+                session.write(new PongPacket().getPacketBytes());
+                break;
+            default:
+                System.out.println("Unknown Packet : " + received);
+        }
     }
 
     public void messageSent(IoSession session, Object message) throws Exception {

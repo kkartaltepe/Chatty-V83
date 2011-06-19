@@ -1,5 +1,6 @@
-package net.arcreactor.chatty.packets;
+package net.arcreactor.chatty.packets.server;
 
+import net.arcreactor.chatty.packets.Packet;
 import org.apache.mina.core.buffer.IoBuffer;
 
 /**
@@ -9,25 +10,16 @@ import org.apache.mina.core.buffer.IoBuffer;
  * Time: 3:35 PM
  * To change this template use File | Settings | File Templates.
  */
-public class UnknownPacket implements Packet{
+public class UnknownPacket extends Packet {
     short header;
-    byte[] packet;
 
     public UnknownPacket(byte[] packet){
         IoBuffer packetBuffer = IoBuffer.wrap(packet);
         header = packetBuffer.getShort();
-        this.packet = packetBuffer.array().clone();
+        packet = packetBuffer.array().clone();
     }
 
     public short getHeader() {
         return header;
-    }
-
-    public byte[] getPacketBytes() {
-        return packet.clone();
-    }
-
-    public String toString(){
-        return "Header: " + header + ". Content length: " + (packet.length-2);
     }
 }

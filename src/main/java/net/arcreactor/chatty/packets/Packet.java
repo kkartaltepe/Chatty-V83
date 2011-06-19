@@ -1,5 +1,7 @@
 package net.arcreactor.chatty.packets;
 
+import com.sun.istack.internal.FinalArrayList;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Admin
@@ -7,7 +9,16 @@ package net.arcreactor.chatty.packets;
  * Time: 3:26 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface Packet {
-    public byte[] getPacketBytes();
-    public short getHeader();
+public abstract class Packet {
+    protected byte[] packet;
+
+    public byte[] getPacketBytes(){
+        return packet.clone();
+    }
+
+    public abstract short getHeader();
+
+    public String toString(){
+        return "Header: " + getHeader() + ". Content length: " + (packet.length-2);
+    }
 }

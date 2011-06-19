@@ -1,7 +1,8 @@
 package net.arcreactor.chatty;
 
 import net.arcreactor.chatty.packets.Packet;
-import net.arcreactor.chatty.packets.UnknownPacket;
+import net.arcreactor.chatty.packets.server.PingPacket;
+import net.arcreactor.chatty.packets.server.UnknownPacket;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.filterchain.IoFilterAdapter;
 import org.apache.mina.core.session.IoSession;
@@ -26,6 +27,8 @@ public class MaplePacketFilter extends IoFilterAdapter {
 
     private Packet getPacketFromHeader(short header, IoBuffer message) {
         switch(header){
+            case PingPacket.HEADER: //ping header
+                return new PingPacket(message.array());
             default:
                 return new UnknownPacket(message.array());
         }
