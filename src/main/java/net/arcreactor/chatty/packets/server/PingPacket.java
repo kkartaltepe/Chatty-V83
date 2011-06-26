@@ -3,6 +3,8 @@ package net.arcreactor.chatty.packets.server;
 import net.arcreactor.chatty.packets.Packet;
 import org.apache.mina.core.buffer.IoBuffer;
 
+import java.nio.ByteOrder;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Admin
@@ -11,10 +13,11 @@ import org.apache.mina.core.buffer.IoBuffer;
  * To change this template use File | Settings | File Templates.
  */
 public class PingPacket extends Packet {
-    public static final short HEADER = 0x1100;
+    public static final short HEADER = 0x11;
 
     public PingPacket(){
         IoBuffer buffer = IoBuffer.allocate(2);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
         buffer.putShort(HEADER);
         packet = buffer.array().clone();
     }

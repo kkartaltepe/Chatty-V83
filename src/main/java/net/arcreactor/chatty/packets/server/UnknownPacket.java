@@ -3,6 +3,8 @@ package net.arcreactor.chatty.packets.server;
 import net.arcreactor.chatty.packets.Packet;
 import org.apache.mina.core.buffer.IoBuffer;
 
+import java.nio.ByteOrder;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Admin
@@ -15,6 +17,8 @@ public class UnknownPacket extends Packet {
 
     public UnknownPacket(byte[] packet){
         IoBuffer packetBuffer = IoBuffer.wrap(packet);
+        packetBuffer.order(ByteOrder.LITTLE_ENDIAN);
+
         header = packetBuffer.getShort();
         packet = packetBuffer.array().clone();
     }
