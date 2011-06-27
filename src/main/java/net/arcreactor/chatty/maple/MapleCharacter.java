@@ -17,6 +17,12 @@ public class MapleCharacter {
         male,
         female
     }
+
+    public enum Job {
+        Cygnus,
+        Adventurer,
+        Aran
+    }
     int id;
     String name;
     private Gender gender;
@@ -34,7 +40,7 @@ public class MapleCharacter {
         byte checkByte;
         id = buffer.getInt();
         try {
-            name = buffer.getString(13, Charset.forName("US-ASCII").newDecoder()) + ",";
+            name = buffer.getString(13, Charset.forName("US-ASCII").newDecoder());
         } catch (CharacterCodingException e) {
             e.printStackTrace();
         }
@@ -86,7 +92,22 @@ public class MapleCharacter {
         buffer.getInt();
         buffer.getInt();
         buffer.getInt();
+        buffer.get(); //??
+        if(buffer.get() == 1){ //whether or not world rank is enabled.
+            buffer.getInt();
+            buffer.getInt();
+            buffer.getInt();
+            buffer.getInt(); // all for world rank
+        }
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getId() {
+
+        return id;
+    }
 
 }

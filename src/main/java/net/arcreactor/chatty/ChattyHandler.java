@@ -1,18 +1,21 @@
 package net.arcreactor.chatty;
 
 import com.sun.servicetag.SystemEnvironment;
+import net.arcreactor.chatty.maple.MapleCharacter;
 import net.arcreactor.chatty.packets.AbstractPacket;
 import net.arcreactor.chatty.packets.client.CharListRequestPacket;
+import net.arcreactor.chatty.packets.client.CreateCharPacket;
 import net.arcreactor.chatty.packets.client.ServerStatusRequestPacket;
 import net.arcreactor.chatty.packets.client.PongPacket;
-import net.arcreactor.chatty.packets.server.CharListPacket;
-import net.arcreactor.chatty.packets.server.LoginStatusPacket;
+import net.arcreactor.chatty.packets.server.*;
 import net.arcreactor.chatty.packets.server.LoginStatusPacket.ResponseCode;
-import net.arcreactor.chatty.packets.server.PingPacket;
-import net.arcreactor.chatty.packets.server.ServerStatusPacket;
+import net.arcreactor.chatty.tools.HexTool;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 import org.omg.PortableInterceptor.SUCCESSFUL;
+import sun.security.util.Cache;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -44,11 +47,20 @@ public class ChattyHandler extends IoHandlerAdapter {
                 System.out.println("Login status: " + responseCode);
                 if(responseCode == ResponseCode.SUCCESS)
                     session.write(new CharListRequestPacket(0,0).getPacketBytes());
+//                    session.write(new CreateCharPacket("abcdfeef", "Adventurer", "female").getPacketBytes());
                 break;
             case ServerStatusPacket.HEADER:
                 break;
             case CharListPacket.HEADER:
-                System.out.println("Received Character List of size: " + ((CharListPacket)received).getChars().size());
+                List<MapleCharacter> characterList = ((CharListPacket)received).getChars();
+                System.out.println(characterList.size() + " Characters available on this server:");
+                for(MapleCharacter character : characterList){
+                    System.out.println("(" +character.getId() + ")" + character.getName());
+                }
+                break;
+            case AddNewCharPacket.HEADER:
+                AddNewCharPacket newCharPacket = (AddNewCharPacket) received;
+                System.out.println("Created a new character: (" + newCharPacket.getNewChar().getId() + ")" + newCharPacket.getNewChar().getName());
                 break;
             default:
                 System.out.println(received);

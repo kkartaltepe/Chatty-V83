@@ -28,19 +28,14 @@ public class CharListPacket extends AbstractPacket {
         IoBuffer buffer = IoBuffer.wrap(this.packet);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        buffer.get();
+        buffer.getShort(); // header
+        buffer.get();//random byte....No one loves it
         byte numChars = buffer.get();
         charList = new ArrayList<MapleCharacter>();
         for(int i = 0; i < numChars; i++){
             charList.add(new MapleCharacter(buffer, true, true));
         }
-        if(buffer.get() == 1){ //whether or not world rank is enabled.
-            buffer.getInt();
-            buffer.getInt();
-            buffer.getInt();
-            buffer.getInt(); // all for world rank
-        }
-        buffer.getInt();
+        buffer.getInt(); //??
     }
 
     @Override

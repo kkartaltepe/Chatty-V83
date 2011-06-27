@@ -1,10 +1,7 @@
 package net.arcreactor.chatty;
 
 import net.arcreactor.chatty.packets.AbstractPacket;
-import net.arcreactor.chatty.packets.server.CharListPacket;
-import net.arcreactor.chatty.packets.server.LoginStatusPacket;
-import net.arcreactor.chatty.packets.server.PingPacket;
-import net.arcreactor.chatty.packets.server.UnknownPacket;
+import net.arcreactor.chatty.packets.server.*;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.filterchain.IoFilterAdapter;
 import org.apache.mina.core.session.IoSession;
@@ -38,6 +35,8 @@ public class MaplePacketFilter extends IoFilterAdapter {
                 return new LoginStatusPacket(message.array());
             case CharListPacket.HEADER:
                 return new CharListPacket(message.array());
+            case AddNewCharPacket.HEADER:
+                return new AddNewCharPacket(message.array());
             default:
                 return new UnknownPacket(message.array());
         }
