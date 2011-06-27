@@ -1,7 +1,6 @@
 package net.arcreactor.chatty.packets.client;
 
-import net.arcreactor.chatty.packets.Packet;
-import net.arcreactor.chatty.tools.HexTool;
+import net.arcreactor.chatty.packets.AbstractPacket;
 import org.apache.mina.core.buffer.IoBuffer;
 
 import java.nio.ByteOrder;
@@ -15,7 +14,7 @@ import java.nio.charset.Charset;
  * Time: 12:05 AM
  * To change this template use File | Settings | File Templates.
  */
-public class LoginPacket extends Packet {
+public class LoginPacket extends AbstractPacket {
     public static final short HEADER = 0x01;
 
     public LoginPacket(String username, String password){
@@ -29,7 +28,6 @@ public class LoginPacket extends Packet {
         } catch (CharacterCodingException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        //contents.put(HexTool.getByteArrayFromHexString("00 00 00 00 00 00 FD 40 2A 20 00 00 00 00 14 67 00 00 00 00 02 00 00 00 00 00 00"));
         packet = contents.flip().array().clone();
     }
 

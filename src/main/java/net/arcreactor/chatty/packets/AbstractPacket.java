@@ -1,6 +1,7 @@
 package net.arcreactor.chatty.packets;
 
 import com.sun.istack.internal.FinalArrayList;
+import net.arcreactor.chatty.tools.HexTool;
 
 /**
  * Created by IntelliJ IDEA.
@@ -9,7 +10,7 @@ import com.sun.istack.internal.FinalArrayList;
  * Time: 3:26 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class Packet {
+public abstract class AbstractPacket {
     protected byte[] packet;
 
     public byte[] getPacketBytes(){
@@ -19,6 +20,6 @@ public abstract class Packet {
     public abstract short getHeader();
 
     public String toString(){
-        return "Header: " + getHeader() + ". Content length: " + (packet.length-2);
+        return this.getClass().getSimpleName() + " Content: " + HexTool.toString(packet);
     }
 }

@@ -1,13 +1,12 @@
 package net.arcreactor.chatty;
 
-import net.arcreactor.chatty.packets.Packet;
+import net.arcreactor.chatty.packets.AbstractPacket;
 import net.arcreactor.chatty.packets.server.LoginStatusPacket;
 import net.arcreactor.chatty.packets.server.PingPacket;
 import net.arcreactor.chatty.packets.server.UnknownPacket;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.filterchain.IoFilterAdapter;
 import org.apache.mina.core.session.IoSession;
-import org.apache.mina.core.write.WriteRequest;
 
 import java.nio.ByteOrder;
 
@@ -25,17 +24,16 @@ public class MaplePacketFilter extends IoFilterAdapter {
         messageBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
         short header = messageBuffer.getShort();
-        Packet packet = getPacketFromHeader(header, messageBuffer);
+        AbstractPacket abstractPacket = getPacketFromHeader(header, messageBuffer);
 
-        nextFilter.messageReceived(session, packet);
+        nextFilter.messageReceived(session, abstractPacket);
     }
 
-    private Packet getPacketFromHeader(short header, IoBuffer message) {
+    private AbstractPacket getPacketFromHeader(short header, IoBuffer message) {
         switch(header){
             case PingPacket.HEADER: //ping header
                 return new PingPacket(message.array());
             case LoginStatusPacket.HEADER:
-                System.out.println("Length of packet is " + message.array().length);
                 return new LoginStatusPacket(message.array());
             default:
                 return new UnknownPacket(message.array());

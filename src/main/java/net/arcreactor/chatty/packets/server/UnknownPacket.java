@@ -1,6 +1,7 @@
 package net.arcreactor.chatty.packets.server;
 
-import net.arcreactor.chatty.packets.Packet;
+import net.arcreactor.chatty.packets.AbstractPacket;
+import net.arcreactor.chatty.tools.HexTool;
 import org.apache.mina.core.buffer.IoBuffer;
 
 import java.nio.ByteOrder;
@@ -12,18 +13,18 @@ import java.nio.ByteOrder;
  * Time: 3:35 PM
  * To change this template use File | Settings | File Templates.
  */
-public class UnknownPacket extends Packet {
-    short header;
+public class UnknownPacket extends AbstractPacket {
+    final short HEADER;
 
-    public UnknownPacket(byte[] packet){
-        IoBuffer packetBuffer = IoBuffer.wrap(packet);
+    public UnknownPacket(byte[] content){
+        IoBuffer packetBuffer = IoBuffer.wrap(content);
         packetBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        header = packetBuffer.getShort();
-        packet = packetBuffer.array().clone();
+        HEADER = packetBuffer.getShort();
+        this.packet = packetBuffer.array().clone();
     }
 
     public short getHeader() {
-        return header;
+        return HEADER;
     }
 }

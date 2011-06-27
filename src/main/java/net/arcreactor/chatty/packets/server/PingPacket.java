@@ -1,6 +1,6 @@
 package net.arcreactor.chatty.packets.server;
 
-import net.arcreactor.chatty.packets.Packet;
+import net.arcreactor.chatty.packets.AbstractPacket;
 import org.apache.mina.core.buffer.IoBuffer;
 
 import java.nio.ByteOrder;
@@ -12,7 +12,7 @@ import java.nio.ByteOrder;
  * Time: 9:25 PM
  * To change this template use File | Settings | File Templates.
  */
-public class PingPacket extends Packet {
+public class PingPacket extends AbstractPacket {
     public static final short HEADER = 0x11;
 
     public PingPacket(){
@@ -22,8 +22,8 @@ public class PingPacket extends Packet {
         packet = buffer.array().clone();
     }
 
-    public PingPacket(byte[] packet){
-        this.packet = packet.clone();
+    public PingPacket(byte[] content){
+        this.packet = content.clone();
     }
 
     public short getHeader() {

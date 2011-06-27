@@ -8,19 +8,21 @@ import java.nio.ByteOrder;
 /**
  * Created by IntelliJ IDEA.
  * User: Admin
- * Date: 6/18/11
- * Time: 10:12 PM
+ * Date: 6/26/11
+ * Time: 5:11 PM
  * To change this template use File | Settings | File Templates.
  */
-public class PongPacket extends AbstractPacket {
-    public static final short HEADER = 0x18;
+public class ServerStatusRequestPacket extends AbstractPacket {
+    public static final short HEADER = 0x06;
 
-    public PongPacket(){
-        IoBuffer buffer = IoBuffer.allocate(2);
-        buffer.order(ByteOrder.LITTLE_ENDIAN);
+    public ServerStatusRequestPacket(){
+        IoBuffer contents = IoBuffer.allocate(4);
+        contents.order(ByteOrder.LITTLE_ENDIAN);
 
-        buffer.putShort(HEADER);
-        packet = buffer.array().clone();
+        contents.putShort(HEADER);
+        contents.putShort((short)0);
+
+        packet = contents.flip().array().clone();
     }
 
     @Override
