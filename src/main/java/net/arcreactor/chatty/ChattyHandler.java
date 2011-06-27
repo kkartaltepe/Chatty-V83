@@ -1,12 +1,18 @@
 package net.arcreactor.chatty;
 
+import com.sun.servicetag.SystemEnvironment;
 import net.arcreactor.chatty.packets.AbstractPacket;
+import net.arcreactor.chatty.packets.client.CharListRequestPacket;
 import net.arcreactor.chatty.packets.client.ServerStatusRequestPacket;
 import net.arcreactor.chatty.packets.client.PongPacket;
+import net.arcreactor.chatty.packets.server.CharListPacket;
 import net.arcreactor.chatty.packets.server.LoginStatusPacket;
+import net.arcreactor.chatty.packets.server.LoginStatusPacket.ResponseCode;
 import net.arcreactor.chatty.packets.server.PingPacket;
+import net.arcreactor.chatty.packets.server.ServerStatusPacket;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
+import org.omg.PortableInterceptor.SUCCESSFUL;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,9 +40,15 @@ public class ChattyHandler extends IoHandlerAdapter {
                 System.out.println("Ping pong!");
                 break;
             case LoginStatusPacket.HEADER:
-                System.out.println("Login status: " + ((LoginStatusPacket)received).getResponse());
+                ResponseCode responseCode = ((LoginStatusPacket)received).getResponse();
+                System.out.println("Login status: " + responseCode);
+                if(responseCode == ResponseCode.SUCCESS)
+                    session.write(new CharListRequestPacket(0,0).getPacketBytes());
                 break;
-            case ServerStatusRequestPacket.HEADER:
+            case ServerStatusPacket.HEADER:
+                break;
+            case CharListPacket.HEADER:
+                System.out.println("Received Character List of size: " + ((CharListPacket)received).getChars().size());
                 break;
             default:
                 System.out.println(received);

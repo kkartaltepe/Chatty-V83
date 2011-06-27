@@ -10,7 +10,7 @@ import net.arcreactor.chatty.packets.AbstractPacket;
  * To change this template use File | Settings | File Templates.
  */
 public class ServerStatusPacket extends AbstractPacket {
-    private static final short HEADER = 0x03;
+    public static final short HEADER = 0x03;
 
     public ServerStatusPacket(byte[] content){
         packet = content.clone();

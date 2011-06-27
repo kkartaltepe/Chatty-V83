@@ -25,7 +25,6 @@ public class LoginStatusPacket extends AbstractPacket {
         INVALID_ID,
         NOPE6,
         ALREADY_LOGGEDIN
-
     }
     public static final short HEADER = 0x0000;
 

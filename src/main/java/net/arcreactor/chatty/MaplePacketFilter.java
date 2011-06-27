@@ -1,6 +1,7 @@
 package net.arcreactor.chatty;
 
 import net.arcreactor.chatty.packets.AbstractPacket;
+import net.arcreactor.chatty.packets.server.CharListPacket;
 import net.arcreactor.chatty.packets.server.LoginStatusPacket;
 import net.arcreactor.chatty.packets.server.PingPacket;
 import net.arcreactor.chatty.packets.server.UnknownPacket;
@@ -35,6 +36,8 @@ public class MaplePacketFilter extends IoFilterAdapter {
                 return new PingPacket(message.array());
             case LoginStatusPacket.HEADER:
                 return new LoginStatusPacket(message.array());
+            case CharListPacket.HEADER:
+                return new CharListPacket(message.array());
             default:
                 return new UnknownPacket(message.array());
         }
